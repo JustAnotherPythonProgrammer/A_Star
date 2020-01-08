@@ -25,7 +25,7 @@ class Node:
     def __init__(self, row, col, type="SPOT"):
         self.row = row
         self.col = col
-        self.type = "WALL" if random() < 0.3 else "SPOT"
+        self.type = "WALL" if random() < 0.4 else "SPOT"
         # self.type = "SPOT"
         self.g = 0
         self.h = 0
@@ -77,14 +77,10 @@ def drawPath(arr):
     pygame.draw.lines(display, BLUE, False, arr, 3)
 
 
-def distance(p1, p2):
+def heuristic(p1, p2):
     x1, y1 = p1.row, p1.col
     x2, y2 = p2.row, p2.col
     return sqrt(((x2-x1)**2) + ((y2-y1)**2))
-
-
-def heuristic(n1, n2):
-    return max([abs(n1.row - n2.row), abs(n1.col - n2.col)])
 
 
 def leastF(arr):
@@ -133,7 +129,7 @@ def aStar(start):
 
         for n in getNeighbors(current):
             if not n in closedList:
-                temp = current.g + distance(n, current) + d(current, n)
+                temp = current.g + d(current, n)
 
                 improved = False
                 if n in openList:
